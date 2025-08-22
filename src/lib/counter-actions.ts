@@ -31,7 +31,7 @@ export const updateCounter = async (id: number, value: number) => {
     const supabase = await createClient();
     const { data: counter, error } = await supabase
       .from("counter")
-      .update({ value: value })
+      .update({ value: value, updated_at: new Date() })
       .eq("id", id)
       .select()
       .single();

@@ -12,10 +12,11 @@ export default function CounterListener() {
         { event: "UPDATE", schema: "public", table: "counter" },
         (payload) => {
           console.log("🔄 Cambio recibido:", payload);
+          return payload.new; // Retorna el nuevo valor del contador
         }
       )
       .subscribe();
-
+      console.log(channel)
     return () => {
       supabase.removeChannel(channel);
     };
