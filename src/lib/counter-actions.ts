@@ -48,5 +48,17 @@ export const updateCounter = async (id: number, value: number) => {
   }
 };
 
+export const suscribeToCounter = async () => {
+  const supabase = await createClient();
+  const counter = supabase.channel('custom-update-channel')
+  .on(
+    'postgres_changes',
+    { event: 'UPDATE', schema: 'public', table: 'counter' },
+    (payload) => {
+      console.log('Change received!', payload)
+    }
+  )
+  .subscribe()
+}
 
 
