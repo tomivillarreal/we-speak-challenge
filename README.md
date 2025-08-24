@@ -35,12 +35,14 @@ Pasados los 20 minutos del último cambio al contador, este se tiene que reinici
 |     `DATABASE_URL` | Conexión principal a tu base de datos (PostgreSQL)     |`postgresql://user:pass@host:5432/db`|
 |     `DIRECT_URL`  | Conexión directa (usada en migraciones, Prisma, etc.)    | `postgresql://user:pass@host:5432/db`|
 
- 2. Migrar la base de datos con el comando `npx prisma db push`
- 3. Configurar políticas RLS para permitir el uso de la tabla "**counter**"
- 4. Habilitar el Realtime de supabase para el proyecto y la tabla "**counter**".
- 5. Ejecutar `npm i` para instalar todas las dependencias.
- 6. Ejecutar en modo desarrollo `npm run dev`
- 7. Construir la aplicacion `npm run build` y ejecutarla `npm run start`
+ 2. Ejecutar `npm i` para instalar todas las dependencias.
+ 3. Migrar la base de datos con el comando `npx prisma db push`
+ 5. Insertar una fila en la tabla "**counter**" (Asegurarse que su ID = 1)
+ 6. Configurar políticas RLS para permitir el uso de la tabla "**counter**" (UPDATE, SELECT)
+ 7. Habilitar el Realtime de supabase para el proyecto y la tabla "**counter**".
+ 8. Generar el schema de Prisma con el comando `npx prisma generate`
+ 9. Ejecutar en modo desarrollo `npm run dev`
+ 10. Construir la aplicacion `npm run build` y ejecutarla `npm run start`
  
  ### Adicionales
 Para lograr ***"Pasados los 20 minutos del último cambio al contador, este se tiene que reiniciar a 0 de manera global y aunque la página esté cerrada."*** se debera configurar un cron job dentro de Supabase, este tiene como finalidad evaluar si han pasado 20 minutos luego de la ultima actualizacion a la base de datos y setear a 0 el contador en caso que corresponda.
