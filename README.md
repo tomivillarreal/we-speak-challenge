@@ -36,7 +36,7 @@ Pasados los 20 minutos del último cambio al contador, este se tiene que reinici
 |     `DIRECT_URL`  | Conexión directa (usada en migraciones, Prisma, etc.)    | `postgresql://user:pass@host:5432/db`|
 
  2. Ejecutar `npm i` para instalar todas las dependencias.
- 3. Migrar la base de datos con el comando `npx prisma db push`
+ 3. Generar la tabla de la base de datos con el comando `npx prisma db push`
  5. Insertar una fila en la tabla "**counter**" (Asegurarse que su ID = 1)
  6. Configurar políticas RLS para permitir el uso de la tabla "**counter**" (UPDATE, SELECT)
  7. Habilitar el Realtime de supabase para el proyecto y la tabla "**counter**".
