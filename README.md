@@ -26,21 +26,20 @@ Pasados los 20 minutos del último cambio al contador, este se tiene que reinici
  - Deployarlo en Vercel
 
 ## ¿Como Ejecutar?
-
- 1. Setear las variables de entorno:
- | Variable                         | Descripción                                            | Ejemplo                 |
-|----------------------------------|--------------------------------------------------------|---------------------------------------|
-| `NEXT_PUBLIC_SUPABASE_URL`       | URL pública de tu proyecto Supabase                   | `https://xxxxx.supabase.co`          |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | API Key pública para conexión desde el frontend | `eyJhbGciOiJIUzI1NiIsInR...`          |
-| `DATABASE_URL`                   | Conexión principal a tu base de datos (PostgreSQL)    | `postgresql://user:pass@host:5432/db`|
-| `DIRECT_URL`                     | Conexión directa (usada en migraciones, Prisma, etc.) | `postgresql://user:pass@host:5432/db`|
+ 1. Setear las variables de entorno (Obtenidas de Supabase)
+| Variable    | Descripción | Ejemplo
+|------|-----------|-----------|
+|     `NEXT_PUBLIC_SUPABASE_URL`   | URL pública de tu proyecto Supabase    |  `https://xxxxx.supabase.co`       | 
+|     `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`| API Key pública para conexión desde el frontend   |`eyJhbGciOiJIUzI1NiIsInR...`         |
+|     `DATABASE_URL` | Conexión principal a tu base de datos (PostgreSQL)     |`postgresql://user:pass@host:5432/db`|
+|     `DIRECT_URL`  | Conexión directa (usada en migraciones, Prisma, etc.)    | `postgresql://user:pass@host:5432/db`|
 
  2. Migrar la base de datos con el comando `npx prisma db push`
  3. Configurar políticas RLS para permitir el uso de la tabla "**counter**"
- 4. Habilitar el Realtime de supabase para el proyecto.
+ 4. Habilitar el Realtime de supabase para el proyecto y la tabla "**counter**".
  5. Ejecutar `npm i` para instalar todas las dependencias.
- 6. Construir la aplicacion `npm run build` y ejecutarla `npm run start`
- 7.  Ejecutar en modo desarrollo `npm run dev`
+ 6. Ejecutar en modo desarrollo `npm run dev`
+ 7. Construir la aplicacion `npm run build` y ejecutarla `npm run start`
  
  ### Adicionales
 Para lograr ***"Pasados los 20 minutos del último cambio al contador, este se tiene que reiniciar a 0 de manera global y aunque la página esté cerrada."*** se debera configurar un cron job dentro de Supabase, este tiene como finalidad evaluar si han pasado 20 minutos luego de la ultima actualizacion a la base de datos y setear a 0 el contador en caso que corresponda.
@@ -51,7 +50,7 @@ Primero creamos una funcion para resetear el valor **reset_counter()**
     $$BEGIN
 	    UPDATE counter
 	    SET value = 0
-	    WHERE now() - "updated_at" > interval '1 minutes' AND value != 0;
+	    WHERE now() - "updated_at" > interval '20 minutes' AND value != 0;
     END;
     $$;
 
