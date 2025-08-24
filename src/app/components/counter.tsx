@@ -5,7 +5,7 @@ import { updateCounter } from "@/lib/counter-actions";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useActionState, startTransition } from 'react'
-import DateCalculator from "./data-calculator";
+import DateCalculator from "./date-calculator";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import { MinusIcon, PlusIcon, RotateCcw } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -13,8 +13,6 @@ import type { Counter } from "@/types/Counter";
 import { supabase } from "@/utils/supabase/client";
 
 export default function Counter({ data }: { data: Counter }) {
-    const [counter, setCounter] = useState(data);
-    const [isLoading, setIsLoading] = useState(false);
     const increment = async () => {
         try {
             setIsLoading(true);
@@ -26,8 +24,6 @@ export default function Counter({ data }: { data: Counter }) {
         }
 
     };
-    const [stateIncrement, actionIncrement, pendingIncrement] = useActionState(increment, false);
-
     const decrement = async () => {
         try {
             setIsLoading(true);
@@ -40,9 +36,6 @@ export default function Counter({ data }: { data: Counter }) {
             setIsLoading(false);
         }
     }
-
-    const [stateDecrement, actionDecrement, pendingDecrement] = useActionState(decrement, false);
-
     const reset = async () => {
         try {
             setIsLoading(true);
@@ -53,7 +46,11 @@ export default function Counter({ data }: { data: Counter }) {
             console.error("Error reseteando el contador:", error);
         }
     };
-    const [stateReset, actionReset, pendingReset] = useActionState(reset, false);
+    const [counter, setCounter] = useState(data);
+    const [isLoading, setIsLoading] = useState(false);
+    const [stateIncrement, actionIncrement, pendingIncrement] = useActionState(increment, undefined);
+    const [stateDecrement, actionDecrement, pendingDecrement] = useActionState(decrement, undefined);
+    const [stateReset, actionReset, pendingReset] = useActionState(reset, undefined);
 
     useEffect(() => {
         const channel = supabase
