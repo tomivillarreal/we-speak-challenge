@@ -9,7 +9,7 @@ import DateCalculator from "./data-calculator";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import { MinusIcon, PlusIcon, RotateCcw } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Counter } from "@/types/Counter";
+import type { Counter } from "@/types/Counter";
 import { supabase } from "@/utils/supabase/client";
 
 export default function Counter({ data }: { data: Counter }) {
@@ -76,10 +76,8 @@ export default function Counter({ data }: { data: Counter }) {
     return (
         <Card className="p-10 flex flex-col gap-4 h-[300px] w-full sm:w-[350px] justify-center items-center shadow-[#7e55f6] shadow-xl  ">
             <Tooltip>
-                <TooltipTrigger>
-                    <div>
-                        <Button size="icon" variant={"ghost"} className="cursor-pointer" onClick={() => startTransition(actionReset)} disabled={pendingReset}> {pendingReset ? <Spinner size={20} /> : <RotateCcw />}</Button>
-                    </div>
+                <TooltipTrigger asChild>
+                    <Button size="icon" variant={"ghost"} className="cursor-pointer" onClick={() => startTransition(actionReset)} disabled={pendingReset}> {pendingReset ? <Spinner size={20} /> : <RotateCcw />}</Button>
                 </TooltipTrigger>
                 <TooltipContent>
                     <p>Resetear a 0</p>
@@ -87,10 +85,8 @@ export default function Counter({ data }: { data: Counter }) {
             </Tooltip>
             <div className="grid grid-cols-3 justify-items-center items-center w-full">
                 <Tooltip>
-                    <TooltipTrigger>
-                        <div>
-                            <Button size="icon" className="cursor-pointer" onClick={() => startTransition(actionDecrement)} disabled={pendingDecrement}> {pendingDecrement ? <Spinner size={20} /> : <MinusIcon />}</Button>
-                        </div>
+                    <TooltipTrigger asChild>
+                        <Button size="icon" className="cursor-pointer" onClick={() => startTransition(actionDecrement)} disabled={pendingDecrement}> {pendingDecrement ? <Spinner size={20} /> : <MinusIcon />}</Button>
                     </TooltipTrigger>
                     <TooltipContent>
                         <p>Decrementar contador</p>
@@ -100,21 +96,21 @@ export default function Counter({ data }: { data: Counter }) {
                     {isLoading ? <Spinner variant="circle-filled" size={72} /> : counter.value}
                 </h4>
                 <Tooltip>
-                    <TooltipTrigger>
-                        <div>
-                            <Button size="icon" className="bg-[#7e55f6] hover:bg-[#6b4fdb] cursor-pointer" onClick={() => startTransition(actionIncrement)} disabled={pendingIncrement}> {pendingIncrement ? <Spinner size={20} /> : <PlusIcon />}</Button>
-                        </div>
+                    <TooltipTrigger asChild>
+                        <Button size="icon" className="bg-[#7e55f6] hover:bg-[#6b4fdb] cursor-pointer" onClick={() => startTransition(actionIncrement)} disabled={pendingIncrement}> {pendingIncrement ? <Spinner size={20} /> : <PlusIcon />}</Button>
                     </TooltipTrigger>
                     <TooltipContent>
                         <p>Incrementar contador</p>
                     </TooltipContent>
                 </Tooltip>
             </div>
-            {counter.value != 0 ? (
-                <DateCalculator date={counter.updated_at} />
-            ) : (
-                <span>Contador no iniciado.</span>
-            )}
+            <div className="w-full h-10 text-center">
+                {counter.value != 0 ? (
+                    <DateCalculator date={counter.updated_at} />
+                ) : (
+                    <span>Contador no iniciado.</span>
+                )}
+            </div>
         </Card>
     )
 }

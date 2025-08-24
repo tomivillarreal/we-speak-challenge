@@ -1,30 +1,22 @@
 "use server";
 import { Counter } from "@/types/Counter";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { CounterPrismaRepository } from "./counter-prisma-repository";
 
+export interface CounterRepository {
+  fetchData(id?: number): Promise<Counter | null>;
+  updateCounter(id: number, value: number): Promise<Counter | null>;
+}
+//HACK: Mandamos siempre id 1 porque solo hay un contador en la base de datos. 
 export const fetchData = async ({ id = 1 }: { id?: number } = {}) => {
   try {
-    // const supabase = await createClient();
-    // const { data: counter, error } = await supabase
-    //   .from("counter")
-    //   .select("*")
-    //   .eq("id", id)
-    //   .single();
-    
-    // if (error) {
-    //   console.error("Error fetching counter:", error);
-    //   throw new Error("Failed to fetch counter data");
-    // }
-
-    const response = await prisma.counter.findUnique({
-      where: { id },
-    });
-
-    return response as Counter;
+    const response = await CounterPrismaRepository.fetchData(id);
+    if (!response) {
+      throw new Error("Contador no encontrado");
+    }
+    return response;
   } catch (error) {
-    console.error("Error in fetchCounterData:", error);
-    throw new Error("Failed to fetch counter data");
+    console.error("Error al obtener los datos del contador:", error);
+    throw new Error("Error al obtener los datos del contador");
   }
 };
 
@@ -33,28 +25,10 @@ export const updateCounter = async (id: number, value: number) => {
     if (value < 0) {
       throw new Error("El valor del contador no puede ser negativo");
     }
-    // const supabase = await createClient();
-    // const { data: counter, error } = await supabase
-    //   .from("counter")
-    //   .update({ value: value, updated_at: new Date() })
-    //   .eq("id", id)
-    //   .select()
-    //   .single();
-    
-    // if (error) {
-    //   console.error("Error updating counter:", error);
-    //   throw new Error("Failed to update counter data");
-    // }
-
-    const response = await prisma.counter.update({
-      where: { id },
-      data: { value, updated_at: new Date() },  
-    });
-
-    return response as Counter;
+    return await CounterPrismaRepository.updateCounter(id, value);  
   } catch (error) {
-    console.error("Error in updateCounterData:", error);
-    throw new Error("Failed to update counter data");
+    console.error("Error al actualizar los datos del contador:", error);
+    throw new Error("Error al actualizar los datos del contador");
   }
 };
 
