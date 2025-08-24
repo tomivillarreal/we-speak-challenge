@@ -1,5 +1,5 @@
 export type Counter = {
-    id: number;
+    id: bigint;
     value: number;
     created_at: Date;
     updated_at: Date;

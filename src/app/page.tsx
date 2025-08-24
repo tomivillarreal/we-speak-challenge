@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import { fetchData } from "@/lib/counter-actions";
 import Counter from "./components/counter";
 import Image from "next/image";
