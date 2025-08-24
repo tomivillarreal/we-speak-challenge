@@ -27,6 +27,7 @@ Pasados los 20 minutos del último cambio al contador, este se tiene que reinici
 
 ## ¿Como Ejecutar?
  1. Setear las variables de entorno (Obtenidas de Supabase)
+
 | Variable    | Descripción | Ejemplo
 |------|-----------|-----------|
 |     `NEXT_PUBLIC_SUPABASE_URL`   | URL pública de tu proyecto Supabase    |  `https://xxxxx.supabase.co`       | 
